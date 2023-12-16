@@ -28,6 +28,7 @@ jobs:
       - run: |
           gh pr comment $PR_URL --body "Welcome to the repository $(echo needs.get_current_step.outputs.latest_commit)!"
           gh pr comment $PR_URL --body "$CURRENT_COMMIT $(echo $CURRENT_COMMIT)!"
+          gh pr comment $PR_URL --body $CURRENT_COMMIT
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_URL: ${{ github.event.pull_request.html_url }}
