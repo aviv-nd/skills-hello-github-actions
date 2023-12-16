@@ -38,11 +38,11 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     env:
-      CURRENT_COMMIT: ${{ needs.test.outputs.latest_commit }}
+      LATEST_COMMIT: ${{ needs.test.outputs.latest_commit }}
     steps:
       - run: |
-          gh pr comment $PR_URL --body "Welcome to the repository $(echo needs.test.outputs.latest_commit)!"
-          gh pr comment $PR_URL --body "$CURRENT_COMMIT $(echo $CURRENT_COMMIT)! $GITHUB_SHA $(echo $GITHUB_SHA)!"
+          echo "Welcome to the repository ${{ needs.test.outputs.latest_commit }}!"
+          echo "$LATEST_COMMIT ! $GITHUB_SHA !"
           echo $GITHUB_SHA
           echo $GITHUB_REF
         env:
