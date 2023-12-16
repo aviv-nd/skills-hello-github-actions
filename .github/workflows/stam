@@ -1,0 +1,42 @@
+name: Post welcome comment
+on: push
+permissions:
+  pull-requests: write
+jobs:
+  test:
+    name: CHECKOUT TEST
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        env:
+          SHA: ${{ github.sha }}
+      - id: get_step
+        run: |
+          echo "latest_commit=$(git rev-parse $GITHUB_REF)" >> $GITHUB_OUTPUT
+          echo "current_commit=$(git github.sha)" >> $GITHUB_OUTPUT
+          echo "latest_commit=$(git rev-parse $GITHUB_REF)"
+          echo "current_commit=$(echo $SHA)"
+          echo $SHA
+          echo "current_commit=$SHA"
+          echo $GITHUB_SHA
+          echo $GITHUB_REF
+          echo "current_commit=$($SHA))"
+    outputs:
+      latest_commit: ${{ steps.get_step.outputs.latest_commit }}
+      current_commit: ${{ steps.get_step.outputs.current_commit }}
+  test_other:
+    name: TEST WITHOUT CHECKOUT
+    needs: test
+    runs-on: ubuntu-latest
+    env:
+      CURRENT_COMMIT: ${{ needs.test.outputs.latest_commit }}
+    steps:
+      - run: |
+          gh pr comment $PR_URL --body "Welcome to the repository $(echo needs.test.outputs.latest_commit)!"
+          gh pr comment $PR_URL --body "$CURRENT_COMMIT $(echo $CURRENT_COMMIT)! $GITHUB_SHA $(echo $GITHUB_SHA)!"
+          echo $GITHUB_SHA
+          echo $GITHUB_REF
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
