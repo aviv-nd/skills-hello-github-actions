@@ -22,10 +22,12 @@ jobs:
     name: Post welcome comment
     needs: get_current_step
     runs-on: ubuntu-latest
+    env:
+      CURRENT_COMMIT: ${{ needs.get_current_step.outputs.current_commit }}
     steps:
       - run: |
           gh pr comment $PR_URL --body "Welcome to the repository $(needs.get_current_step.outputs.latest_commit)!"
-          gh pr comment $PR_URL --body "$(needs.get_current_step.outputs.current_commit)!"
+          gh pr comment $PR_URL --body "$CURRENT_COMMIT $(CURRENT_COMMIT)!"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_URL: ${{ github.event.pull_request.html_url }}
