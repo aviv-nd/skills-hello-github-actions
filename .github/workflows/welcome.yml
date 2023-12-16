@@ -5,11 +5,30 @@ on:
 permissions:
   pull-requests: write
 jobs:
-  build:
-    name: Post welcome comment
+  get_current_step:
+    name: Check current step number
     runs-on: ubuntu-latest
     steps:
-      - run: gh pr comment $PR_URL --body "Welcome to the repository!"
+      - name: Checkout
+        uses: actions/checkout@v4
+      - id: get_step
+        run: |
+          echo "latest_commit=$(git rev-parse github.ref)" >> $GITHUB_OUTPUT
+          echo "current_commit=$(git github.sha)" >> $GITHUB_OUTPUT
+    outputs:
+      latest_commit: ${{ steps.get_step.outputs.latest_commit }}
+      current_commit: ${{ steps.get_step.outputs.current_commit }}
+  build:
+    name: Post welcome comment
+    needs: get_current_step
+    runs-on: ubuntu-latest
+    env:
+      CURRENT_COMMIT: ${{ needs.get_current_step.outputs.current_commit }}
+    steps:
+      - run: |
+          gh pr comment $PR_URL --body "Welcome to the repository $(echo needs.get_current_step.outputs.latest_commit)!"
+          gh pr comment $PR_URL --body "$CURRENT_COMMIT $(echo $CURRENT_COMMIT)!"
+          gh pr comment $PR_URL --body $CURRENT_COMMIT
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_URL: ${{ github.event.pull_request.html_url }}
