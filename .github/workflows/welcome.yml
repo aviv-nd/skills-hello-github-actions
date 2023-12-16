@@ -15,12 +15,14 @@ jobs:
           SHA: ${{ github.sha }}
       - id: get_step
         run: |
-          echo "latest_commit=$(git rev-parse github.ref)" >> $GITHUB_OUTPUT
+          echo "latest_commit=$(git rev-parse $GITHUB_REF)" >> $GITHUB_OUTPUT
           echo "current_commit=$(git github.sha)" >> $GITHUB_OUTPUT
           echo "latest_commit=$(git rev-parse github.ref)"
           echo "current_commit=$(echo $SHA)"
           echo $SHA
           echo "current_commit=$SHA"
+          echo $GITHUB_SHA
+          echo $GITHUB_REF
           echo "current_commit=$($SHA))"
     outputs:
       latest_commit: ${{ steps.get_step.outputs.latest_commit }}
