@@ -17,6 +17,8 @@ jobs:
       - id: get_step
         run: |
           echo "HELLO"
+          latest_commit=$(git rev-parse FETCH_HEAD)
+          echo "latest $latest_commit"
           echo ${GITHUB_REF#refs/heads/}
           echo "Hello ${GITHUB_REF#refs/heads/}"
           echo "latest_commit=$(git rev-parse origin/${GITHUB_REF#refs/heads/})" >> $GITHUB_OUTPUT
