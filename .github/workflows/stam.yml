@@ -12,15 +12,14 @@ jobs:
         env:
           SHA: ${{ github.sha }}
           
-          # echo "Hello2 ${{GITHUB_REF#refs/heads/}}"
-          # echo "Hello3 $(${GITHUB_REF#refs/heads/})"
+          # echo "Hello2 ${{github.ref#refs/heads/}}"
+          # echo "Hello3 $(${github.ref#refs/heads/})"
       - id: get_step
         run: |
           echo "HELLO"
           latest_commit=$(git rev-parse FETCH_HEAD)
           echo "latest $latest_commit"
-          echo ${GITHUB_REF#refs/heads/}
-          echo "Hello ${GITHUB_REF#refs/heads/}"
+          echo "Branch ${GITHUB_REF#refs/heads/}"
           echo "latest_commit=$(git rev-parse origin/${GITHUB_REF#refs/heads/})" >> $GITHUB_OUTPUT
           echo "current_commit=$(git github.sha)" >> $GITHUB_OUTPUT
           echo "latest_commit=$(git rev-parse origin/${GITHUB_REF#refs/heads/})"
