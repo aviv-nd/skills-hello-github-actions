@@ -17,6 +17,7 @@ jobs:
       - id: get_step
         run: |
           echo "HELLO"
+          git fetch --depth=1 origin ${{ github.ref }}
           latest_commit=$(git rev-parse FETCH_HEAD)
           echo "latest $latest_commit"
           echo "Branch ${GITHUB_REF#refs/heads/}"
