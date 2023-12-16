@@ -22,7 +22,7 @@ jobs:
           echo "latest $latest_commit"
           echo "Branch ${GITHUB_REF#refs/heads/}"
           echo "latest_commit=$(git rev-parse origin/${GITHUB_REF#refs/heads/})" >> $GITHUB_OUTPUT
-          echo "current_commit=$(git github.sha)" >> $GITHUB_OUTPUT
+          echo "current_commit=$GITHUB_SHA" >> $GITHUB_OUTPUT
           echo "latest_commit=$(git rev-parse origin/${GITHUB_REF#refs/heads/})"
           echo "current_commit=${{ github.sha }}"
           echo $SHA
