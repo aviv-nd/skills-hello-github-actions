@@ -11,12 +11,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        env:
+          SHA: ${{ github.sha }}
       - id: get_step
         run: |
           echo "latest_commit=$(git rev-parse github.ref)" >> $GITHUB_OUTPUT
           echo "current_commit=$(git github.sha)" >> $GITHUB_OUTPUT
           echo "latest_commit=$(git rev-parse github.ref)"
-          echo "current_commit=$(git github.sha)"
+          echo "current_commit=$(echo $SHA)"
+          echo $SHA
+          echo "current_commit=$SHA"
+          echo "current_commit=$($SHA))"
     outputs:
       latest_commit: ${{ steps.get_step.outputs.latest_commit }}
       current_commit: ${{ steps.get_step.outputs.current_commit }}
