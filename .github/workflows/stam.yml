@@ -11,13 +11,14 @@ jobs:
         uses: actions/checkout@v4
         env:
           SHA: ${{ github.sha }}
+          
+          # echo "Hello2 ${{GITHUB_REF#refs/heads/}}"
+          # echo "Hello3 $(${GITHUB_REF#refs/heads/})"
       - id: get_step
         run: |
           echo "HELLO"
           echo ${GITHUB_REF#refs/heads/}
           echo "Hello ${GITHUB_REF#refs/heads/}"
-          echo "Hello2 ${{GITHUB_REF#refs/heads/}}"
-          echo "Hello3 $(${GITHUB_REF#refs/heads/})"
           echo "latest_commit=$(git rev-parse origin/${GITHUB_REF#refs/heads/})" >> $GITHUB_OUTPUT
           echo "current_commit=$(git github.sha)" >> $GITHUB_OUTPUT
           echo "latest_commit=$(git rev-parse origin/${GITHUB_REF#refs/heads/})"
