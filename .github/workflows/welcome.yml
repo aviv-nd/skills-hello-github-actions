@@ -14,14 +14,18 @@ jobs:
       - id: get_step
         run: |
           echo "latest_commit=$(git rev-parse github.ref)" >> $GITHUB_OUTPUT
+          echo "current_commit=$(git github.sha)" >> $GITHUB_OUTPUT
     outputs:
       latest_commit: ${{ steps.get_step.outputs.latest_commit }}
+      current_commit: ${{ steps.get_step.outputs.current_commit }}
   build:
     name: Post welcome comment
     needs: get_current_step
     runs-on: ubuntu-latest
     steps:
-      - run: gh pr comment $PR_URL --body "Welcome to the repository $(needs.get_current_step.outputs.latest_commit)!"
+      - run: |
+          gh pr comment $PR_URL --body "Welcome to the repository $(needs.get_current_step.outputs.latest_commit)!"
+          gh pr comment $PR_URL --body "$(needs.get_current_step.outputs.current_commit)!"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_URL: ${{ github.event.pull_request.html_url }}
